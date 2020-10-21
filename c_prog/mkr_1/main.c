@@ -132,19 +132,29 @@ int		main(const int argc, const char* argv[]) {
 	int*	dec_matrix;
 	int*	inv_matrix;
 	int*	dec_msg;
-	
-	dec_matrix = get_decypher_matrix("6 9 3 5");
-	inv_matrix = get_inverse_matrix(dec_matrix);
-	printf("Inverse matrix (A^(-1))\n");
-	print_inverse_matrix(inv_matrix);
-	dec_msg = get_encoded_msg("dv");
-	multiply_matrices(dec_msg, inv_matrix);
-	print_decrypted_msg(dec_msg);
-	free(dec_msg);
-	dec_msg = get_encoded_msg("dz");
-	multiply_matrices(dec_msg, inv_matrix);
-	print_decrypted_msg(dec_msg);
-	free(dec_msg);
-	
-	free(dec_matrix);
+
+	if (argc == 3 && ft_strlen(argv[1]) && (omit_chars(argv[1], ' ') % 2 == 0) && (ft_strlen(argv[2]) % 2 == 0))
+	{
+		size_t	i;
+		char*	temp;
+
+		i = 0;
+		dec_matrix = get_decypher_matrix(argv[1]);
+		inv_matrix = get_inverse_matrix(dec_matrix);
+		printf("Inverse matrix (A^(-1))\n");
+		print_inverse_matrix(inv_matrix);
+		while (i < ft_strlen(argv[2])) {
+			temp = ft_strnew(MATRIX_ROW_LEN);
+			dec_msg = get_encoded_msg(ft_strncpy(temp, argv[2] + i, 2));
+			multiply_matrices(dec_msg, inv_matrix);
+			print_decrypted_msg(dec_msg);
+			free(temp);
+			free(dec_msg);
+			i += 2;
+		}
+		free(dec_matrix);
+		return (0);
+	}
+	else
+		return (1);
 }

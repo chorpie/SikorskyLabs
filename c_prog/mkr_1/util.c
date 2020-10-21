@@ -12,6 +12,20 @@ char	*ft_strnew(size_t size)
 	return (((temp = (char*)malloc(size + 1)) == NULL) ? NULL : ft_memset(temp, 0, size + 1));
 }
 
+size_t		omit_chars(const char* str, char c) {
+	size_t		i;
+	size_t		counter;
+
+	i = 0;
+	counter = 0;
+	while (str[i] != '\0') {
+		if (str[i] != c)
+			counter++;
+		i++;
+	}
+	return (counter);
+}
+
 size_t		get_wordlen(const char *s, char c)
 {
 	size_t len;
